@@ -209,21 +209,22 @@ public class App {
             for (HashMap.Entry<String, Customer> entry : customersMap.entrySet())
             {
                System.out.println("------------------------------");
+               System.out.println(entry.getValue().entity_id);
                System.out.println(entry.getValue().firstname);
                System.out.println(entry.getValue().lastname);
                System.out.println(entry.getValue().email);
                System.out.println("------------------------------");
             }
 
-//            factory = transport.createRequestFactory(parameters);
-//            url = new GenericUrl(MAGENTO_REST_API_URL + "/products");
-//            req = factory.buildGetRequest(url);
-//            resp = req.execute();
-//
-//            String response = resp.parseAsString();
-//            resp.disconnect();
-//
-//            System.out.println(response);
+            factory = transport.createRequestFactory(parameters);
+            url = new GenericUrl(MAGENTO_REST_API_URL + "/products/9");
+            req = factory.buildGetRequest(url);
+            resp = req.execute();
+
+            String response = resp.parseAsString();
+            resp.disconnect();
+
+            System.out.println(response);
 
 //            HashMap<String, Product> maps = gson.fromJson(response, new TypeToken<HashMap<String, Product>>() {
 //            }.getType());
@@ -243,16 +244,30 @@ public class App {
 //                System.out.println(product.name);
 //            }
 //
-//            ProductBootstrap productBootstrap = new ProductBootstrap();
-//            Product productToMagento = productBootstrap.generateProduct();
+            ProductBootstrap productBootstrap = new ProductBootstrap();
+            Product productToMagento = productBootstrap.generateProduct();
 
-//            System.out.println(gson.toJson(productToMagento));
+            System.out.println(gson.toJson(productToMagento));
 
             /*
             Trecho de código que realiza o POST dos produtos
              */
+            productToMagento.price = Double.toString(15.85);
+
+            HttpRequestFactory requestFactory = transport.createRequestFactory(parameters);
+            HttpRequest request = requestFactory.buildPutRequest(url, ByteArrayContent.fromString("application/json", gson.toJson(productToMagento)));
+            HttpResponse responsePost = request.execute();
+            System.out.println(responsePost.getStatusCode());
+            System.out.println(responsePost.getStatusMessage());
+
+//            CustomerBootstrap customerBootstrap = new CustomerBootstrap();
+//            Customer customer = customerBootstrap.generateCustomer();
+//
+//            System.out.println(gson.toJson(customer));
+
+//            GenericUrl customersUrl = new GenericUrl(MAGENTO_REST_API_URL + "/customers/");
 //            HttpRequestFactory requestFactory = transport.createRequestFactory(parameters);
-//            HttpRequest request = requestFactory.buildPostRequest(url, ByteArrayContent.fromString("application/json", gson.toJson(productToMagento)));
+//            HttpRequest request = requestFactory.buildPutRequest(customersUrl, ByteArrayContent.fromString("application/json", gson.toJson(customer)));
 //            HttpResponse responsePost = request.execute();
 //            System.out.println(responsePost.getStatusCode());
 //            System.out.println(responsePost.getStatusMessage());

@@ -12,6 +12,7 @@ public class CustomerBootstrap {
         customer.lastname = "Java";
         customer.email = "customer@java.com";
         customer.middlename = "Middlename";
+        customer.group_id = 1;
 
         return customer;
     }
