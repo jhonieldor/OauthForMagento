@@ -2,17 +2,22 @@ package br.com.ultra.oauthScribe;
 
 import br.com.ultra.oauthClientGoogle.Order;
 import br.com.ultra.oauthClientGoogle.Product;
+import br.com.ultra.oauthScribe.resources.CustomAttributeProduct;
+import br.com.ultra.oauthScribe.resources.ProductResource;
+import br.com.ultra.oauthScribe.resources.ItemProductResource;
+import br.com.ultra.oauthScribe.resources.ProductResourceBootstrap;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.*;
 import org.scribe.oauth.OAuthService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 
 /**
  * Created by mzimpel on 28.08.14.
@@ -68,7 +73,6 @@ public class Main {
         try {
             OAuthRequest request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
             service.signRequest(permanentToken, request);
-            System.out.println(request.getOauthParameters());
             Response response = request.send();
 
             System.out.println();
@@ -78,23 +82,29 @@ public class Main {
             System.out.println(response.getHeaders());
             System.out.println();
 
-            request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL + "/products/attributes?searchCriteria[page_size]=1000");
-            service.signRequest(permanentToken, request);
-            System.out.println(request.getOauthParameters());
-            response = request.send();
+//            request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL + "/configurable-products/98456466678/children?searchCriteria[page_size]=1000");
+//            service.signRequest(permanentToken, request);
+//            System.out.println(request.getOauthParameters());
+//            response = request.send();
+//
+//            System.out.println();
+//            System.out.println(response.getCode());
+//            System.out.println(response.getMessage());
+//            System.out.println(response.getBody());
+//            System.out.println(response.getHeaders());
+//            System.out.println();
 
-            System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getMessage());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
-            System.out.println();
 
 
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-//            Gson gson = new Gson();
+//            ProductResource[] products = gson.fromJson(response.getBody(), ProductResource[].class);
 
-//            HashMap<String, Product> productsMap = gson.fromJson(response.getBody(), new TypeToken<HashMap<String, Product>>() {}.getType());
+            ProductResource productResource = gson.fromJson(response.getBody(), ProductResource.class);
+//            List<Product> products = gson.fromJson(response.getBody(), List<>.class);
+//            InputStream inputStream = new InputStream(response.getBody());
+//            JsonReader reader = new JsonReader(new InputStreamReader(response.getBody()));
+//            HashMap<String,ProductResource> productsMap = gson.fromJson(response.getBody(), new TypeToken<HashMap<String,ProductResource>>() {}.getType());
 //            System.out.println(productsMap.get("1").entity_id);
 //
 //            List<Product> products = new ArrayList<Product>();
@@ -104,6 +114,35 @@ public class Main {
 //            {
 //                products.add(entry.getValue());
 //            }
+            System.out.println("Produtos importados do Magento");
+            System.out.println("---------------------------------------------");
+            for(ItemProductResource item : productResource.items){
+                System.out.println("Sku: " + item.sku);
+                System.out.println("Name: " + item.name);
+                System.out.println("---------------------------------------------");
+                System.out.println("Custom Attributes");
+                System.out.println("------------------------------------");
+                for(CustomAttributeProduct customAttribute: item.custom_attributes){
+                    System.out.println("Attribute Code: " + customAttribute.attribute_code);
+                    System.out.println("Value: " + customAttribute.value);
+                    System.out.println("------------------------------------");
+                }
+            }
+
+            ProductResourceBootstrap productBootstrap = new ProductResourceBootstrap();
+
+            String productJson = gson.toJson(productBootstrap.generateProduct());
+
+            System.out.println(productJson);
+            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
+            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+            request.addPayload(productJson);
+            service.signRequest(permanentToken, request);
+            response = request.send();
+
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getMessage());
 
 
         }catch(Exception e)
