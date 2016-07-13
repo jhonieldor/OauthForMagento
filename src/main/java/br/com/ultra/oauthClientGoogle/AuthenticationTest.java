@@ -1,5 +1,6 @@
 package br.com.ultra.oauthClientGoogle;
 
+import com.google.api.client.auth.oauth.OAuthParameters;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
@@ -12,6 +13,8 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,26 +25,30 @@ import java.util.Arrays;
 public class AuthenticationTest {
     private static FileDataStoreFactory DATA_STORE_FACTORY;
     private static final String SCOPE = "read";
-    private static final String TOKEN_SERVER_URL = "http://192.168.254.10/magento/oauth/token";
-    private static final String AUTHORIZATION_SERVER_URL = "http://192.168.254.10/magento/oauth/authorize";
+    private static final String TOKEN_SERVER_URL = "http://192.168.254.10:81/magento/oauth/token";
+    private static final String AUTHORIZATION_SERVER_URL = "http://192.168.254.10:81/magento/oauth/authorize";
 
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
     private static final java.io.File DATA_STORE_DIR =
-            new java.io.File(System.getProperty("user.home"), ".store/dailymotion_sample");
+            new java.io.File(System.getProperty("user.home"), ".store/magento");
 
     private static Credential authorize() throws Exception {
-        OAuthClientCredentials.errorIfNotSpecified();
+        //OAuthClientCredentials.errorIfNotSpecified();
         // set up authorization code flow
+//        new ClientParametersAuthentication(
+//                "1609ed562defde9b45b781352b2a7eb5", "a9709572fec4138b2fc35b767937332b"),
+//                "1609ed562defde9b45b781352b2a7eb5",
+
         AuthorizationCodeFlow flow = new AuthorizationCodeFlow.Builder(BearerToken
                 .authorizationHeaderAccessMethod(),
                 HTTP_TRANSPORT,
                 JSON_FACTORY,
                 new GenericUrl(TOKEN_SERVER_URL),
                 new ClientParametersAuthentication(
-                        OAuthClientCredentials.API_KEY, OAuthClientCredentials.API_SECRET),
-                OAuthClientCredentials.API_KEY,
+                        "5bjgv0mwaxxy7p0b9cw7prih4gnpa5d8", "squl2txc25tx5hybk3nnwoi6bbonhujr"),
+                "5bjgv0mwaxxy7p0b9cw7prih4gnpa5d8",
                 AUTHORIZATION_SERVER_URL).setScopes(Arrays.asList(SCOPE))
                 .setDataStoreFactory(DATA_STORE_FACTORY).build();
         // authorize
@@ -51,6 +58,26 @@ public class AuthenticationTest {
     }
 
     private static void run(HttpRequestFactory requestFactory) throws IOException {
+
+        final String BASE_URL = "http://192.168.254.10/magento/";
+        GenericUrl url = new GenericUrl(BASE_URL + "api/rest/orders");
+        HttpRequest req = requestFactory.buildGetRequest(url);
+        HttpResponse resp = req.execute();
+
+//            Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            String jsonOutput = gson.toJson(employee);
+
+//            System.out.println(resp.parseAsString());
+
+        String responseOrder = resp.parseAsString();
+        resp.disconnect();
+
+//            gson.
+
+//            ProductBootstrap pb = new ProductBootstrap();
+        System.out.println(responseOrder);
+
 
 //        HttpRequest request = requestFactory.buildGetRequest(url);
 //        VideoFeed videoFeed = request.execute().parseAs(VideoFeed.class);
