@@ -2,10 +2,7 @@ package br.com.ultra.oauthScribe;
 
 import br.com.ultra.oauthClientGoogle.Order;
 import br.com.ultra.oauthClientGoogle.Product;
-import br.com.ultra.oauthScribe.resources.CustomAttributeProduct;
-import br.com.ultra.oauthScribe.resources.ProductResource;
-import br.com.ultra.oauthScribe.resources.ItemProductResource;
-import br.com.ultra.oauthScribe.resources.ProductResourceBootstrap;
+import br.com.ultra.oauthScribe.resources.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -131,7 +128,7 @@ public class Main {
 
             ProductResourceBootstrap productBootstrap = new ProductResourceBootstrap();
 
-            String productJson = gson.toJson(productBootstrap.generateProduct());
+//            String productJson = gson.toJson(productBootstrap.generateProduct());
 
 //            System.out.println(productJson);
 //            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
@@ -143,6 +140,44 @@ public class Main {
 //            System.out.println();
 //            System.out.println(response.getCode());
 //            System.out.println(response.getMessage());
+
+            ConfigurableProductBootstrap configurableProduct = new ConfigurableProductBootstrap();
+
+            System.out.println(gson.toJson(configurableProduct.generateConfigurableProduct("PFROMJAVATESTESKU", "Product Test Config From Java")));
+
+            System.out.println("Generating Configurable Product");
+            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products");
+            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+            request.addPayload(gson.toJson(configurableProduct.generateConfigurableProduct("PJAVASKU", "Product Config From Java")));
+            service.signRequest(permanentToken, request);
+            response = request.send();
+
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getMessage());
+
+            System.out.println("Generating Simple Product");
+            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products");
+            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+            request.addPayload(gson.toJson(configurableProduct.generateSimpleProduct("PJAVASKU-BM", "Product Config From Java - Branco Médio")));
+            service.signRequest(permanentToken, request);
+            response = request.send();
+
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getMessage());
+
+            System.out.println("Linking Simple Product to Configurable Product");
+            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/configurable-products/PJAVASKU/child");
+            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+            request.addPayload(gson.toJson(configurableProduct.generateChild("PJAVASKU-BM")));
+            service.signRequest(permanentToken, request);
+            response = request.send();
+
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getMessage());
+
 
 
         }catch(Exception e)

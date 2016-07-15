@@ -20,7 +20,7 @@ public class ConfigurableProductOption implements Serializable{
     private Integer position;
 
     @SerializedName("values")
-    private List<Integer> values = new ArrayList<Integer>();
+    private List<OptionValue> values = new ArrayList<OptionValue>();
 
     public Integer getAttributeId() {
         return attributeId;
@@ -46,11 +46,11 @@ public class ConfigurableProductOption implements Serializable{
         this.position = position;
     }
 
-    public List<Integer> getValues() {
+    public List<OptionValue> getValues() {
         return values;
     }
 
-    public void setValues(List<Integer> values) {
+    public void setValues(List<OptionValue> values) {
         this.values = values;
     }
 }

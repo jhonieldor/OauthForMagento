@@ -3,6 +3,7 @@ package br.com.ultra.oauthScribe.resources;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class ItemProductResource implements Serializable {
     private List<ProductLink> productLinks;
 
     @SerializedName("custom_attributes")
-    private List<CustomAttributeProduct> customAttributes;
+    private List<CustomAttributeProduct> customAttributes = new ArrayList<CustomAttributeProduct>();
 
     public Integer getId() {
         return id;

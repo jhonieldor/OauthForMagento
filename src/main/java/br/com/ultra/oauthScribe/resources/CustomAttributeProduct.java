@@ -13,7 +13,7 @@ public class CustomAttributeProduct implements Serializable {
     private String attributeCode;
 
     @SerializedName("value")
-    private String value;
+    private Object value;
 
     public String getAttributeCode() {
         return attributeCode;
@@ -23,11 +23,11 @@ public class CustomAttributeProduct implements Serializable {
         this.attributeCode = attributeCode;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 }

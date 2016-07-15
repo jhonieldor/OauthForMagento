@@ -15,7 +15,7 @@ public class ExtensionAttributes implements Serializable{
     private StockItem stockItem;
 
     @SerializedName("configurable_product_options")
-    private List<ConfigurableProductOption> configurableProductOptions;
+    private List<ConfigurableProductOption> configurableProductOptions = new ArrayList<ConfigurableProductOption>();
 
     @SerializedName("configurable_product_links")
     private List<Integer> configurableProductLinks = new ArrayList<Integer>();
