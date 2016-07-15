@@ -116,15 +116,15 @@ public class Main {
 //            }
             System.out.println("Produtos importados do Magento");
             System.out.println("---------------------------------------------");
-            for(ItemProductResource item : productResource.items){
-                System.out.println("Sku: " + item.sku);
-                System.out.println("Name: " + item.name);
+            for(ItemProductResource item : productResource.getItems()){
+                System.out.println("Sku: " + item.getSku());
+                System.out.println("Name: " + item.getName());
                 System.out.println("---------------------------------------------");
                 System.out.println("Custom Attributes");
                 System.out.println("------------------------------------");
-                for(CustomAttributeProduct customAttribute: item.custom_attributes){
-                    System.out.println("Attribute Code: " + customAttribute.attribute_code);
-                    System.out.println("Value: " + customAttribute.value);
+                for(CustomAttributeProduct customAttribute: item.getCustomAttributes()){
+                    System.out.println("Attribute Code: " + customAttribute.getAttributeCode());
+                    System.out.println("Value: " + customAttribute.getValue());
                     System.out.println("------------------------------------");
                 }
             }
@@ -133,16 +133,16 @@ public class Main {
 
             String productJson = gson.toJson(productBootstrap.generateProduct());
 
-            System.out.println(productJson);
-            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
-            request.addHeader("Content-Type", "application/json;charset=UTF-8");
-            request.addPayload(productJson);
-            service.signRequest(permanentToken, request);
-            response = request.send();
-
-            System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getMessage());
+//            System.out.println(productJson);
+//            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
+//            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+//            request.addPayload(productJson);
+//            service.signRequest(permanentToken, request);
+//            response = request.send();
+//
+//            System.out.println();
+//            System.out.println(response.getCode());
+//            System.out.println(response.getMessage());
 
 
         }catch(Exception e)

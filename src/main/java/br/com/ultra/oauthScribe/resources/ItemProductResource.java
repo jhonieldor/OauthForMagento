@@ -1,37 +1,176 @@
 package br.com.ultra.oauthScribe.resources;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Jhoni on 13/07/2016.
  */
-public class ItemProductResource {
-    public Integer id;
+public class ItemProductResource implements Serializable {
+    @SerializedName("id")
+    private Integer id;
 
-    public String sku;
+    @SerializedName("sku")
+    private String sku;
 
-    public String name;
+    @SerializedName("name")
+    private String name;
 
-    public int attribute_set_id;
+    @SerializedName("attribute_set_id")
+    private int attributeSetId;
 
-    public String price;
+    @SerializedName("price")
+    private String price;
 
-    public int status;
+    @SerializedName("status")
+    private int status;
 
-    public int visibility;
+    @SerializedName("visibility")
+    private int visibility;
 
-    public String type_id;
+    @SerializedName("type_id")
+    private String typeId;
 
-    public String created_at;
+    @SerializedName("created_at")
+    private String createdAt;
 
-    public String updated_at;
+    @SerializedName("updated_at")
+    private String updatedAt;
 
-    public List<OptionProductResource> options;
+    @SerializedName("extension_attributes")
+    private ExtensionAttributes extensionAttributes;
 
-    public List<TierPriceResource> tier_prices;
+    @SerializedName("options")
+    private List<OptionProductResource> options;
 
-    public List<ProductLink> product_links;
+    @SerializedName("tier_prices")
+    private List<TierPriceResource> tierPrices;
 
-    public List<CustomAttributeProduct> custom_attributes;
+    @SerializedName("product_links")
+    private List<ProductLink> productLinks;
 
+    @SerializedName("custom_attributes")
+    private List<CustomAttributeProduct> customAttributes;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAttributeSetId() {
+        return attributeSetId;
+    }
+
+    public void setAttributeSetId(int attributeSetId) {
+        this.attributeSetId = attributeSetId;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public ExtensionAttributes getExtensionAttributes() {
+        return extensionAttributes;
+    }
+
+    public void setExtensionAttributes(ExtensionAttributes extensionAttributes) {
+        this.extensionAttributes = extensionAttributes;
+    }
+
+    public List<OptionProductResource> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionProductResource> options) {
+        this.options = options;
+    }
+
+    public List<TierPriceResource> getTierPrices() {
+        return tierPrices;
+    }
+
+    public void setTierPrices(List<TierPriceResource> tierPrices) {
+        this.tierPrices = tierPrices;
+    }
+
+    public List<ProductLink> getProductLinks() {
+        return productLinks;
+    }
+
+    public void setProductLinks(List<ProductLink> productLinks) {
+        this.productLinks = productLinks;
+    }
+
+    public List<CustomAttributeProduct> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttributeProduct> customAttributes) {
+        this.customAttributes = customAttributes;
+    }
 }

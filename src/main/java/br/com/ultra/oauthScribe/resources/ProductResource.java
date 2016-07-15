@@ -1,5 +1,7 @@
 package br.com.ultra.oauthScribe.resources;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,11 +9,47 @@ import java.util.List;
  */
 public class ProductResource {
 
-    public List<ItemProductResource> items;
+    @SerializedName("items")
+    private List<ItemProductResource> items;
 
-    public ItemProductResource product;
+    @SerializedName("product")
+    private ItemProductResource product;
 
-    public SearchCriteria search_criteria;
+    @SerializedName("search_criteria")
+    private SearchCriteria searchCriteria;
 
-    public Integer total_count;
+    @SerializedName("total_count")
+    private Integer totalCount;
+
+    public List<ItemProductResource> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemProductResource> items) {
+        this.items = items;
+    }
+
+    public ItemProductResource getProduct() {
+        return product;
+    }
+
+    public void setProduct(ItemProductResource product) {
+        this.product = product;
+    }
+
+    public SearchCriteria getSearchCriteria() {
+        return searchCriteria;
+    }
+
+    public void setSearchCriteria(SearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
 }
