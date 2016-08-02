@@ -1,5 +1,8 @@
 package br.com.ultra.oauthScribe.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Jhoni on 15/07/2016.
  */
@@ -18,7 +21,7 @@ public class ConfigurableProductBootstrap {
         itemProductResource.setCreatedAt("2016-07-14 13:13:15");
         itemProductResource.setUpdatedAt("2016-07-14 19:03:27");
 
-        ExtensionAttributes extensionAttributes = new ExtensionAttributes();
+        ExtensionAttributes extensionAttribute = new ExtensionAttributes();
 
         StockItem stockItem = new StockItem();
 
@@ -44,7 +47,7 @@ public class ConfigurableProductBootstrap {
         stockItem.setLowStockDate("2016-07-14 13:13:15");
         stockItem.setDecimalDivided(false);
         stockItem.setStockStatusChangedAuto(1);
-        extensionAttributes.setStockItem(stockItem);
+        extensionAttribute.setStockItem(stockItem);
 
         ConfigurableProductOption configurableProductOption1 = new ConfigurableProductOption();
         configurableProductOption1.setAttributeId(132);
@@ -62,12 +65,13 @@ public class ConfigurableProductBootstrap {
 
         OptionValue optionValue4 = new OptionValue(10);
         configurableProductOption1.getValues().add(optionValue4);
-        extensionAttributes.getConfigurableProductOptions().add(configurableProductOption1);
+
+        extensionAttribute.getConfigurableProductOptions().add(configurableProductOption1);
 
         ConfigurableProductOption configurableProductOption2 = new ConfigurableProductOption();
         configurableProductOption2.setAttributeId(131);
         configurableProductOption2.setLabel("Tamanho");
-        configurableProductOption2.setPosition(0);
+        configurableProductOption2.setPosition(1);
 
         OptionValue optionValue5 = new OptionValue(4);
         configurableProductOption2.getValues().add(optionValue5);
@@ -78,9 +82,11 @@ public class ConfigurableProductBootstrap {
         OptionValue optionValue7 = new OptionValue(6);
         configurableProductOption2.getValues().add(optionValue7);
 
-        extensionAttributes.getConfigurableProductOptions().add(configurableProductOption2);
+        extensionAttribute.getConfigurableProductOptions().add(configurableProductOption2);
 
-        itemProductResource.setExtensionAttributes(extensionAttributes);
+//        extensionAttributes.add(extensionAttribute);
+
+        itemProductResource.setExtensionAttribute(extensionAttribute);
 
         ConfigurableProduct configurableProduct = new ConfigurableProduct();
 
@@ -130,7 +136,7 @@ public class ConfigurableProductBootstrap {
         stockItem.setStockStatusChangedAuto(0);
         extensionAttributes.setStockItem(stockItem);
 
-        itemProductResource.setExtensionAttributes(extensionAttributes);
+        itemProductResource.setExtensionAttribute(extensionAttributes);
 
         CustomAttributeProduct customAttributeProduct1 = new CustomAttributeProduct();
         customAttributeProduct1.setAttributeCode("meta_title");
@@ -144,13 +150,13 @@ public class ConfigurableProductBootstrap {
 
         CustomAttributeProduct customAttributeProduct3 = new CustomAttributeProduct();
         customAttributeProduct3.setAttributeCode("tamanho");
-        customAttributeProduct3.setValue("5");
+        customAttributeProduct3.setValue("4");
         itemProductResource.getCustomAttributes().add(customAttributeProduct3);
 
         CustomAttributeProduct customAttributeProduct4 = new CustomAttributeProduct();
         customAttributeProduct4.setAttributeCode("cor");
         customAttributeProduct4.setValue("8");
-        itemProductResource.getCustomAttributes().add(customAttributeProduct3);
+        itemProductResource.getCustomAttributes().add(customAttributeProduct4);
 
         ProductResource productResource = new ProductResource();
         productResource.setProduct(itemProductResource);

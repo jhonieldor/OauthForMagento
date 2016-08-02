@@ -21,20 +21,28 @@ import java.util.*;
  */
 public class Main {
 
-
     public static void main(String[] args) {
-        final String MAGENTO_API_KEY = "5bjgv0mwaxxy7p0b9cw7prih4gnpa5d8";
-        final String MAGENTO_API_SECRET = "squl2txc25tx5hybk3nnwoi6bbonhujr";
-        final String MAGENTO_REST_API_URL = "http://localhost:81/magento/rest/V1";
+        final String MAGENTO_API_KEY_2_0 = "5bjgv0mwaxxy7p0b9cw7prih4gnpa5d8";
+        final String MAGENTO_API_SECRET_2_0 = "squl2txc25tx5hybk3nnwoi6bbonhujr";
+        final String MAGENTO_REST_API_URL_2_0 = "http://localhost:81/magento/rest/V1";
+        final String MAGENTO_API_TOKEN_2_0 = "d3wmj8khucjvjup9ld9d2xv2ks8r0xrk";
+        final String MAGENTO_API_TOKEN_SECRET_2_0 = "l2o51e6gnmat74w6djd0nhrh9ee61j0c";
+
+        final String MAGENTO_API_KEY_2_1 = "tqr80vptaey0op9x0f2npc7b9mecq2ls";
+        final String MAGENTO_API_SECRET_2_1 = "delykbjrwi7v2lejg9pmj0lhf8uxcy6o";
+        final String MAGENTO_REST_API_URL_2_1 = "http://localhost:82/magento/rest/V1";
+        final String MAGENTO_API_TOKEN_2_1 = "7dpe3lasborlw1chpgfpj2wwq3lvm1df";
+        final String MAGENTO_API_TOKEN_SECRET_2_1 = "9p7uvthq9itgwy4hwkgcmm6hciv027qq";
+
 
         OAuthService service = new ServiceBuilder()
                 .provider(MagentoThreeLeggedOAuth.class)
-                .apiKey(MAGENTO_API_KEY)
-                .apiSecret(MAGENTO_API_SECRET)
+                .apiKey(MAGENTO_API_KEY_2_0)
+                .apiSecret(MAGENTO_API_SECRET_2_0)
                 .debug()
                 .build();
 
-        Token permanentToken = new Token("ttufxu5frvg1s9tokf5n0rjm9pkbk1rm", "ryntcbarrut2nkikkxwwarhh4xd95wl5");
+        Token permanentToken = new Token(MAGENTO_API_TOKEN_2_0, MAGENTO_API_TOKEN_SECRET_2_0);
         /**
         Scanner in = new Scanner(System.in);
         System.out.println("Magento'srkflow");
@@ -68,7 +76,8 @@ public class Main {
         */
         // Now let's go and ask for a protected resource!
         try {
-            OAuthRequest request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL + "/products?searchCriteria[page_size]=1000");
+            OAuthRequest request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL_2_0 + "/products?searchCriteria[page_size]=1000");
+//            OAuthRequest request = new OAuthRequest(Verb.GET, MAGENTO_REST_API_URL + "/products/P1");
             service.signRequest(permanentToken, request);
             Response response = request.send();
 
@@ -97,7 +106,7 @@ public class Main {
 
 //            ProductResource[] products = gson.fromJson(response.getBody(), ProductResource[].class);
 
-            ProductResource productResource = gson.fromJson(response.getBody(), ProductResource.class);
+//            ProductResource productResource = gson.fromJson(response.getBody(), ProductResource.class);
 //            List<Product> products = gson.fromJson(response.getBody(), List<>.class);
 //            InputStream inputStream = new InputStream(response.getBody());
 //            JsonReader reader = new JsonReader(new InputStreamReader(response.getBody()));
@@ -106,27 +115,26 @@ public class Main {
 //
 //            List<Product> products = new ArrayList<Product>();
 //
-//
 //            for (HashMap.Entry<String, Product> entry : productsMap.entrySet())
 //            {
 //                products.add(entry.getValue());
 //            }
-            System.out.println("Produtos importados do Magento");
-            System.out.println("---------------------------------------------");
-            for(ItemProductResource item : productResource.getItems()){
-                System.out.println("Sku: " + item.getSku());
-                System.out.println("Name: " + item.getName());
-                System.out.println("---------------------------------------------");
-                System.out.println("Custom Attributes");
-                System.out.println("------------------------------------");
-                for(CustomAttributeProduct customAttribute: item.getCustomAttributes()){
-                    System.out.println("Attribute Code: " + customAttribute.getAttributeCode());
-                    System.out.println("Value: " + customAttribute.getValue());
-                    System.out.println("------------------------------------");
-                }
-            }
+//            System.out.println("Produtos importados do Magento");
+//            System.out.println("---------------------------------------------");
+//            for(ItemProductResource item : productResource.getItems()){
+//                System.out.println("Sku: " + item.getSku());
+//                System.out.println("Name: " + item.getName());
+//                System.out.println("---------------------------------------------");
+//                System.out.println("Custom Attributes");
+//                System.out.println("------------------------------------");
+//                for(CustomAttributeProduct customAttribute: item.getCustomAttributes()){
+//                    System.out.println("Attribute Code: " + customAttribute.getAttributeCode());
+//                    System.out.println("Value: " + customAttribute.getValue());
+//                    System.out.println("------------------------------------");
+//                }
+//            }
 
-            ProductResourceBootstrap productBootstrap = new ProductResourceBootstrap();
+//            ProductResourceBootstrap productBootstrap = new ProductResourceBootstrap();
 
 //            String productJson = gson.toJson(productBootstrap.generateProduct());
 
@@ -142,50 +150,57 @@ public class Main {
 //            System.out.println(response.getMessage());
 
             ConfigurableProductBootstrap configurableProduct = new ConfigurableProductBootstrap();
+//            System.out.println(gson.toJson(configurableProduct.generateConfigurableProduct("PFROMJAVATESTESKU", "Product Test Config From Java")));
 
-            System.out.println(gson.toJson(configurableProduct.generateConfigurableProduct("PFROMJAVATESTESKU", "Product Test Config From Java")));
-
-            System.out.println("Generating Configurable Product");
-            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products");
-            request.addHeader("Content-Type", "application/json;charset=UTF-8");
-            request.addPayload(gson.toJson(configurableProduct.generateConfigurableProduct("PJAVASKU", "Product Config From Java")));
-            service.signRequest(permanentToken, request);
-            response = request.send();
-
-            System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getMessage());
-
+//            System.out.println("Generating Configurable Product");
+//            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL_2_0 + "/products");
+//            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+//            request.addPayload(gson.toJson(configurableProduct.generateConfigurableProduct("PJAVASKU", "Product Config From Java")));
+//            service.signRequest(permanentToken, request);
+//            response = request.send();
+//
+//            System.out.println(gson.toJson(configurableProduct.generateConfigurableProduct("PJAVASKU", "Product Config From Java")));
+//
+//            System.out.println();
+//            System.out.println(response.getCode());
+//            System.out.println(response.getMessage());
+//
             System.out.println("Generating Simple Product");
-            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/products");
+            request = new OAuthRequest(Verb.PUT, MAGENTO_REST_API_URL_2_0 + "/products/PJAVASKU-BM");
             request.addHeader("Content-Type", "application/json;charset=UTF-8");
-            request.addPayload(gson.toJson(configurableProduct.generateSimpleProduct("PJAVASKU-BM", "Product Config From Java - Branco Médio")));
+
+            ProductResource configurableProductSimple = configurableProduct.generateSimpleProduct("PJAVASKU-BM", "Product Config From Java - Branco Médio");
+
+            configurableProductSimple.getProduct().setPrice(Double.toString(55.50));
+            configurableProductSimple.getProduct().getExtensionAttribute().getStockItem().setQty(800);
+
+            request.addPayload(gson.toJson(configurableProductSimple));
             service.signRequest(permanentToken, request);
             response = request.send();
+
+            System.out.println(gson.toJson(configurableProduct.generateSimpleProduct("PJAVASKU-BM", "Product Config From Java - Branco Médio")));
 
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getMessage());
 
-            System.out.println("Linking Simple Product to Configurable Product");
-            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL + "/configurable-products/PJAVASKU/child");
-            request.addHeader("Content-Type", "application/json;charset=UTF-8");
-            request.addPayload(gson.toJson(configurableProduct.generateChild("PJAVASKU-BM")));
-            service.signRequest(permanentToken, request);
-            response = request.send();
+//            System.out.println(gson.toJson(configurableProductSimple));
 
-            System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getMessage());
-
-
+//            System.out.println("Linking Simple Product to Configurable Product");
+//            request = new OAuthRequest(Verb.POST, MAGENTO_REST_API_URL_2_0 + "/configurable-products/PJAVASKU/child");
+//            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+//            request.addPayload(gson.toJson(configurableProduct.generateChild("PJAVASKU-BM")));
+//            service.signRequest(permanentToken, request);
+//            response = request.send();
+//
+//            System.out.println();
+//            System.out.println(response.getCode());
+//            System.out.println(response.getMessage());
 
         }catch(Exception e)
         {
             e.printStackTrace();
         }
-
-
 
     }
 }

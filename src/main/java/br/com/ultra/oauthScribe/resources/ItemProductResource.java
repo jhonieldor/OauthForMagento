@@ -41,7 +41,10 @@ public class ItemProductResource implements Serializable {
     private String updatedAt;
 
     @SerializedName("extension_attributes")
-    private ExtensionAttributes extensionAttributes;
+    private ExtensionAttributes extensionAttribute;
+
+//    @SerializedName("extension_attributes")
+    private List<ExtensionAttributes> extensionAttributes;
 
     @SerializedName("options")
     private List<OptionProductResource> options;
@@ -135,11 +138,11 @@ public class ItemProductResource implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public ExtensionAttributes getExtensionAttributes() {
+    public List<ExtensionAttributes> getExtensionAttributes() {
         return extensionAttributes;
     }
 
-    public void setExtensionAttributes(ExtensionAttributes extensionAttributes) {
+    public void setExtensionAttributes(List<ExtensionAttributes> extensionAttributes) {
         this.extensionAttributes = extensionAttributes;
     }
 
@@ -173,5 +176,13 @@ public class ItemProductResource implements Serializable {
 
     public void setCustomAttributes(List<CustomAttributeProduct> customAttributes) {
         this.customAttributes = customAttributes;
+    }
+
+    public ExtensionAttributes getExtensionAttribute() {
+        return extensionAttribute;
+    }
+
+    public void setExtensionAttribute(ExtensionAttributes extensionAttribute) {
+        this.extensionAttribute = extensionAttribute;
     }
 }
